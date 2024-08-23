@@ -22,7 +22,12 @@ function MainComponent() {
     fetch("/api/events")
       .then(response => response.json())
       .then(data => {
-        setEvents(data);
+        if (Array.isArray(data)) {
+          setEvents(data);
+        } else {
+          console.error("Received data is not an array:", data);
+          setEvents([]);
+        }
         setIsLoaded(true);
       })
       .catch(error => {
